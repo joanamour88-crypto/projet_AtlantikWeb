@@ -1,7 +1,14 @@
+<h2><?php echo $TitreDeLaPage ?></h2>
+<?php
+if ($TitreDeLaPage == 'Saisie incorrecte')
+  echo service('validation')->listErrors(); // affichage liste des erreurs, suite à erreur validation
+
+echo form_open('creeuncompte')
+?>
 <h2> Inscription </h2>
 <?php
   /* set_value : en cas de non validation, les données déjà saisies sont réinjectées dans le formulaire */
-  echo form_open('creeuncompte');
+  //echo form_open('creeuncompte');
   echo csrf_field();
   echo form_label('Nom : ','txtNom');
   echo form_input('txtNom', set_value('txtNom'));    
@@ -28,7 +35,7 @@
   echo form_input('txtMail', set_value('txtMail'));
   echo '<br>';
   echo form_label('Mot de passe : ','txtMdp');
-  echo form_password('txtMdp', set_value('txtMdp'));
+  echo form_input('txtMdp', set_value('txtMdp'));
   echo '<br>';
   echo form_submit('submit', 'Crée le compte');
   echo form_close();

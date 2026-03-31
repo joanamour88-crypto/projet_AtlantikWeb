@@ -16,8 +16,19 @@
 <nav class="navbar navbar-expand-sm bg-info">
   <div class="container-fluid">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('seconnecter') ?>">Se Connecter</a>
+      <li Class="nav-items">
+        <?php
+        $session = session();
+        echo 'Utilisateur connecté : ' . $session->get('PRENOM').'&nbsp;&nbsp;';?>
+      </li>
+      <li>
+      <?php
+
+        if(!is_null($session->get('MEL'))):?>
+          <a Class="nav-link" href="<?php echo site_url('sedeconnecter') ?>">Se déconnecter</a>&nbsp;&nbsp;
+        <?php else : ?>
+          <a class="nav-link" href="<?php echo site_url('seconnecter') ?>">Se Connecter</a>
+        <?php endif; ?>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Afficher liaison</a>

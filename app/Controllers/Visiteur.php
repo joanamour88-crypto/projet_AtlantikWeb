@@ -1,9 +1,8 @@
-<?php namespace App\Controllers;
-
-use App\Models\Modele;
+<?php 
+namespace App\Controllers;
+use App\Models\ModeleClient;
 
 helper(['url','assets','form']);
-
 class Visiteur extends BaseController
 {
     public function Accueil()
@@ -15,14 +14,56 @@ class Visiteur extends BaseController
 
     public function SeConnecter()
     {
-        return view('Templates/Header')
-        . view('Visiteur/vue_SeConnecter')
-        . view('Templates/Footer');
+        helper(['form']);
+        $session = session();
+        $data['TitreDeLaPage'] = 'Se connecter';
+        if (!$this->request->is('post')) {
+            return view('Templates/Header', $data)
+            . view('Visiteur/vue_SeConnecter')
+            . view('Templates/Footer');
+        }
+        $reglesValidation = [
+            'txtMail' => 'required',
+            'txtMotDePasse' => 'required',
+        ];
+        if (!$this->validate($reglesValidation)) {
+            $data['TitreDeLaPage'] = "Saisie incorrecte";
+            return view('Templates/Header', $data)
+            . view('Visiteur/vue_SeConnecter')
+            . view('Templates/Footer');
+        }
+        $Mail = $this->request->getPost('txtMail');
+        $MdP = $this->request->getPost('txtMotDePasse');
+        $modClient = new ModeleClient();
+        $condition = ['Mel'=>$Mail,'motdepasse'=>$MdP];
+        $utilisateurRetourne = $modClient->where($condition)->first();
+
+        //var_dump($utilisateurRetourne);
+        //die();
+
+        if ($utilisateurRetourne != null) {
+            $session->set('MEL', $utilisateurRetourne->MEL);
+            $session->set('PRENOM', $utilisateurRetourne->PRENOM);
+            $data['Mail'] = $Mail;
+            echo view('Templates/Header', $data);
+            echo view('Visiteur/vue_ConnexionReussie');
+        } else {
+            $data['TitreDeLaPage'] = "Mail ou/et Mot de passe inconnu(s)";
+            return view('Templates/Header', $data)
+            . view('Visiteur/vue_SeConnecter')
+            . view('Templates/Footer');
+        }
+    }
+
+    public function seDeconnecter()
+    {
+        session()->destroy();
+        return redirect()->to('seconnecter');
     }
 
     public function CréationCompte()
     {
-        $data['TitreDeLaPage'] = 'Création Nouveau Compte';
+        $data['TitreDeLaPage'] = 'CréationCompte';
         if (!$this->request->is('post')) {
             return view('Templates/Header')
             . view('Visiteur/vue_CreeUnCompte', $data)
@@ -33,7 +74,7 @@ class Visiteur extends BaseController
             'txtPrenom' => 'required|string|max_length[10]',
             'txtAdresse' => 'required|string|max_length[30]',
             'txtCodePostale' => 'required|numeric',
-            'txtVille' => 'required|string|max_length[10]',
+            'txtVille' => 'required|string|max_length[20]',
             'txtTelFixe' => 'required|string|max_length[14]',
             'txtTelMobile' => 'required|string|max_length[14]',
             'txtMail' => 'required|string|max_length[30]',
@@ -46,18 +87,21 @@ class Visiteur extends BaseController
             . view('Templates/Footer');
         }
         $donneesAInserer = array(
-            'nom' => $this->request->getPost('txtNom'),
-            'prenom' => $this->request->getPost('txtPrenom'),
-            'adresse' => $this->request->getPost('txtAdresse'),
-            'codepostale' => $this->request->getPost('txtAdresse'),
-            'ville' => $this->request->getPost('txtAdresse'),
-            'telfixe' => $this->request->getPost('txtAdresse'),
-            'telmobile' => $this->request->getPost('txtAdresse'),
-            'mail' => $this->request->getPost('txtAdresse'),
-            'mdp' => $this->request->getPost('txtAdresse'),
+            'NOM' => $this->request->getPost('txtNom'),
+            'PRENOM' => $this->request->getPost('txtPrenom'),
+            'ADRESSE' => $this->request->getPost('txtAdresse'),
+            'CODEPOSTAL' => $this->request->getPost('txtCodePostale'),
+            'VILLE' => $this->request->getPost('txtVille'),
+            'TELEPHONEFIXE' => $this->request->getPost('txtTelFixe'),
+            'TELEPHONEMOBILE' => $this->request->getPost('txtTelMobile'),
+            'MEL' => $this->request->getPost('txtMail'),
+            'MOTDEPASSE' => $this->request->getPost('txtMdp'),
         );
-        $modelCreaCompte = new ModeleCreaCompte();
-        $donnees['creationcompte'] = $modelCreaCompte->insert($donneesAInserer, false);
+
+        //var_dump($donneesAInserer);
+        //die();
+        $modelClient = new ModeleClient();
+        $donnees['creationcompte'] = $modelClient->insert($donneesAInserer, false);
         return view('Templates/Header')
             .view('Visiteur/vue_RapportCreationCompte', $donnees)
             .view('Templates/Footer');
