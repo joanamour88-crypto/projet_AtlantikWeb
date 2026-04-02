@@ -1,6 +1,8 @@
 <?php 
 namespace App\Controllers;
 use App\Models\ModeleClient;
+use App\Models\ModeleLiaison;
+use App\Models\ModeleTarif;
 
 helper(['url','assets','form']);
 class Visiteur extends BaseController
@@ -105,5 +107,25 @@ class Visiteur extends BaseController
         return view('Templates/Header')
             .view('Visiteur/vue_RapportCreationCompte', $donnees)
             .view('Templates/Footer');
+    }
+
+    public function voirLiaison()
+    {
+        $modeleLiaison = new ModeleLiaison();
+        $donnee['lesliaisons'] = $modeleLiaison->getAllLiaison();
+        $donnee['TitreDeLaPage'] = "Liste des liaisons";
+        return view('Templates/Header')
+        . view('Visiteur/vue_AfficheLiaisons', $donnee)
+        . view('Templates/Footer');
+    }
+
+    public function voirTarif()
+    {
+        $modeleTarif = new ModeleTarif();
+        $donnee['lestarifs'] = $modeleTarif->getAllTarif();
+        $donnee['TitreDeLaPage'] = "Liste des Tarifs";
+        return view('Templates/Header')
+        . view('Visiteur/vue_AfficheTarifLiaison', $donnee)
+        . view('Templates/Footer');
     }
 }

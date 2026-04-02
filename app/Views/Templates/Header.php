@@ -31,7 +31,7 @@
         <?php endif; ?>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Afficher liaison</a>
+        <a class="nav-link" href="voirliaison">Afficher liaison</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Afficher Tarifs</a>
