@@ -34,7 +34,7 @@
         <a class="nav-link" href="voirliaison">Afficher liaison</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Afficher Tarifs</a>
+        <a class="nav-link" href="voirtarif">Afficher Tarifs</a>
       </li>
     </ul>
   </div>

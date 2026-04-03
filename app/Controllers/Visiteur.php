@@ -119,11 +119,14 @@ class Visiteur extends BaseController
         . view('Templates/Footer');
     }
 
-    public function voirTarif()
+    public function voirTarif($noliaison)
     {
         $modeleTarif = new ModeleTarif();
-        $donnee['lestarifs'] = $modeleTarif->getAllTarif();
+        $donnee['lestarifs'] = $modeleTarif->getAllTarif($noliaison);
+        $donnee['periode'] = $modeleTarif->getPeriode($noliaison);
+        $donnee['nombreperiode'] = $modeleTarif->getNombrePeriode($noliaison);
         $donnee['TitreDeLaPage'] = "Liste des Tarifs";
+
         return view('Templates/Header')
         . view('Visiteur/vue_AfficheTarifLiaison', $donnee)
         . view('Templates/Footer');

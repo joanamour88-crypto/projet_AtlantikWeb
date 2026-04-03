@@ -14,7 +14,7 @@ foreach ($lesliaisons as $uneliaison)
 {
     echo "<TR>";
     echo "<TD>".$uneliaison->NOMSECTEUR."</TD><TD>"
-    .$uneliaison->NOLIAISON."</TD><TD>"
+    .anchor('voirtarif/' . $uneliaison->NOLIAISON, $uneliaison->NOLIAISON)."</TD><TD>"
     .$uneliaison->DISTANCE."</TD><TD>"
     .$uneliaison->PORTDEPART."</TD><TD>"
     .$uneliaison->PORTARRIVEE."</TD><TD>";
