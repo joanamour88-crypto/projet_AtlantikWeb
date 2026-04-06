@@ -1,31 +1,31 @@
 <h2><?php echo $TitreDeLaPage ?><h2>
 <?php
-foreach ($nombreperiode as $uneperiode)
-{
-    $nbper = $uneperiode->nbperiode;
-}
 echo "<table class='table table-striped'>";
 echo "
 <tr>
 <th rowspan = 2>Catégorie</th>
 <th rowspan = 2>Type</th>
-<th colspan=". $nbper . ">Periode</th>
+<th>Periode</th>
 </tr>";
 "<tr>";
-foreach ($periode as $uneperiode)
+foreach ($lesperiodes as $uneperiode)
 {
     echo "<td>" . $uneperiode->DATEDEBUT . "<br>" . $uneperiode->DATEFIN . "</td>";
 }
 "</tr>";
 echo "</table>";
 
+?>
 
 
 
 
 
-
+<?php
 /*
+var_dump($nbper);
+die();
+
 foreach ($lestarifs as $untarif)
 {
     echo "<TR>";
@@ -37,3 +37,4 @@ foreach ($lestarifs as $untarif)
     echo "</TR>";
 }
 */
+?>

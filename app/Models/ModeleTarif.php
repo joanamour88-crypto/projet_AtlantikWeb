@@ -28,7 +28,7 @@ class ModeleTarif extends Model{
     public function getCategorie()
     {
         return $this->join('categorie c', 't.LETTRECATEGORIE = c.LETTRECATEGORIE', 'inner')
-        ->select('c.LETTRECATEGORIE AS LETCATCAT')
+        ->select('c.LETTRECATEGORIE AS LETCATCAT, c.LIBELLE AS LIBCAT')
         ->get()
         ->getResult();
     }
@@ -42,21 +42,22 @@ class ModeleTarif extends Model{
         ->getResult();
     }
 
-    public function getPeriode($noliaison)
+    public function getPeriode()
     {
-        return $this->join('periode p', 't.NOPERIODE = p.NOPERIODE', 'inner')
-        ->select('DATEDEBUT, DATEFIN')
-        ->where('t.NOLIAISON =' . $noliaison)
-        ->get()
-        ->getResult();
+        return $this->select('p.NOPERIODE, p.DATEDEBUT, p.DATEFIN')
+            ->from('periode p')
+            ->groupby('p.NOPERIODE, p.DATEDEBUT, p.DATEFIN')
+            ->get()
+            ->getResult();
     }
 
     public function getNombrePeriode($noliaison)
     {
         return $this->join('periode p', 't.NOPERIODE = p.NOPERIODE', 'inner')
-        ->select('count(DATEDEBUT) AS nbperiode')
-        ->where('t.NOLIAISON =' . $noliaison)
-        ->get()
-        ->getResult();
+            ->select('COUNT(DISTINCT t.NOPERIODE) AS nombre_periodes')
+            ->where('t.NOLIAISON', $noliaison)
+            ->get()
+            ->getRow()
+            ->nombre_periodes;
     }
 }
