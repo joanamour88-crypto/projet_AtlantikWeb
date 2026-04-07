@@ -12,32 +12,26 @@ class ModeleTarif extends Model{
 
     public function getAllTarif($noliaison)
     {
-        return 
-        $this->join('categorie c', 't.LETTRECATEGORIE = c.LETTRECATEGORIE', 'inner')
-        ->join('periode p', 't.NOPERIODE = p.NOPERIODE', 'inner')
-        ->join('type ty', 't.NOTYPE = ty.NOTYPE', 'inner')
-        ->join('liaison l', 't.NOLIAISON = l.NOLIAISON', 'inner')
-        ->join('port po', 'l.NOPORT_DEPART = po.NOPORT', 'inner')
-        ->join('port por', 'l.NOPORT_ARRIVEE = por.NOPORT', 'inner')
-        ->select('t.TARIF, c.LETTRECATEGORIE AS LETCATCAT, c.LIBELLE AS LIBCAT, DATEDEBUT, DATEFIN, ty.LETTRECATEGORIE AS LETCATTYP, ty.LIBELLE AS LIBTYP, ty.NOTYPE, po.NOM AS PORTDEPART, por.NOM AS PORTARRIVEE')
-        ->where('t.NOLIAISON =' . $noliaison)
+        return  $this->select('t.TARIF, t.NOTYPE, t.NOPERIODE')
+        ->where('t.NOLIAISON', $noliaison)
         ->get()
         ->getResult();
     }
 
     public function getCategorie()
     {
-        return $this->join('categorie c', 't.LETTRECATEGORIE = c.LETTRECATEGORIE', 'inner')
-        ->select('c.LETTRECATEGORIE AS LETCATCAT, c.LIBELLE AS LIBCAT')
+        return $this->select('c.LETTRECATEGORIE, c.LIBELLE')
+        ->from('categorie c')
+        ->groupby('c.LETTRECATEGORIE, c.LIBELLE')
         ->get()
         ->getResult();
     }
 
-    public function getType($noliaison)
+    public function getType()
     {
-        return $this->join('type ty', 't.NOTYPE = ty.NOTYPE', 'inner')
-        ->select('ty.LETTRECATEGORIE AS LETCATTYP, ty.LIBELLE AS LIBTYP, ty.NOTYPE')
-        ->where('t.NOLIAISON =' . $noliaison)
+        return $this->select('ty.LETTRECATEGORIE, ty.LIBELLE, ty.NOTYPE')
+        ->from('type ty')
+        ->groupby('ty.LETTRECATEGORIE, ty.LIBELLE, ty.NOTYPE')
         ->get()
         ->getResult();
     }

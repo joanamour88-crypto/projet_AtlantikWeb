@@ -124,6 +124,8 @@ class Visiteur extends BaseController
         $modeleTarif = new ModeleTarif();
         $donnee['lestarifs'] = $modeleTarif->getAllTarif($noliaison);
         $donnee['lesperiodes'] = $modeleTarif->getPeriode();
+        $donnee['lescategories'] = $modeleTarif->getCategorie();
+        $donnee['lestypes'] = $modeleTarif->getType();
         $donnee['TitreDeLaPage'] = "Liste des Tarifs";
 
         return view('Templates/Header')
