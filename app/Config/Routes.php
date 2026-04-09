@@ -12,3 +12,4 @@ $routes->match(['get','post'], 'sedeconnecter', 'Visiteur::seDeconnecter');
 $routes->match(['get','post'],'creeuncompte', 'Visiteur::CréationCompte');
 $routes->get('voirliaison', 'Visiteur::voirLiaison');
 $routes->get('voirtarif/(:num)', 'Visiteur::voirTarif/$1');
+$routes->get('voirhorairestraversees', 'Visiteur::voirHoraires');

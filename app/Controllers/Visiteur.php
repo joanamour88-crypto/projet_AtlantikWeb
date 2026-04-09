@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Models\ModeleClient;
 use App\Models\ModeleLiaison;
 use App\Models\ModeleTarif;
+use App\Models\ModeleHoraires;
 
 helper(['url','assets','form']);
 class Visiteur extends BaseController
@@ -130,6 +131,17 @@ class Visiteur extends BaseController
 
         return view('Templates/Header')
         . view('Visiteur/vue_AfficheTarifLiaison', $donnee)
+        . view('Templates/Footer');
+    }
+
+    public function voirHoraires()
+    {
+        $modeleHoraires = new modeleHoraires();
+        $donnee['lessecteurs'] = $modeleHoraires->getSecteur();
+        $donnee['TitreDeLaPage'] = "Liste des Horaires";
+
+        return view('Templates/Header')
+        . view('Visiteur/vue_AfficheHorairesTraversees', $donnee)
         . view('Templates/Footer');
     }
 }

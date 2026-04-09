@@ -15,30 +15,31 @@ foreach ($lesperiodes as $uneperiode)
 "</tr>";
 foreach ($lescategories as $unecategorie)
 {
-    foreach ($lestypes as $untype)
+    foreach($lestypes as $untype)
     {
-        echo "<tr>";
-        
-            if ($unecategorie->LETTRECATEGORIE == $untype->LETTRECATEGORIE)
+        if ($untype->LETTRECATEGORIE !== $unecategorie->LETTRECATEGORIE) continue;
+        {
+            echo "<tr>";
+            echo "<td>" . $unecategorie->LETTRECATEGORIE . "<br>" . $unecategorie->LIBELLE . "</td>";
+            echo "<td>". $untype->LETTRECATEGORIE . $untype->NOTYPE . "<br>" . $untype->LIBELLE . "</td>";
+
+            foreach($lestarifs as $untarif)
             {
-                echo "<td>". $unecategorie->LETTRECATEGORIE . "<br>" . $unecategorie->LIBELLE . "</td>";
-                echo "<td>" . $untype->LETTRECATEGORIE . "<br>" . $untype->LIBELLE . "</td>" ;
-            }
-            
-            foreach($lesperiodes as $uneperiode){
-                foreach ($lestarifs as $untarif)
+                if ($untarif->LETTRECATEGORIE === $unecategorie->LETTRECATEGORIE && $untarif->NOTYPE === $untype->NOTYPE)
                 {
-                    if ($untarif->NOTYPE === $untype->NOTYPE && $untarif->NOPERIODE === $uneperiode->NOPERIODE) 
-                    {  
-                            if($uneperiode->NOPERIODE == $untarif->NOPERIODE){
-                                echo "<td>" . $untarif->TARIF . "</td>";
-                            }
-                    }  
+                    foreach ($lesperiodes as $unePeriode)
+                    {
+                        if ($unePeriode->NOPERIODE == $untarif->NOPERIODE)
+                        {
+                            echo '<td>' . $untarif->TARIF . ' €</td>';
+                        }
+                    }
                 }
-           
             }
-        echo "</tr>";       
+        }
+        echo "</tr>"; 
     }
+     
 }
 
 echo "</table>";
@@ -65,4 +66,31 @@ foreach ($lestarifs as $untarif)
     echo "</TR>";
 }
 */
+
+/*foreach ($lestypes as $untype)
+    {
+        /*echo "<tr>";
+            echo "<td>". $unecategorie->LETTRECATEGORIE . "<br>" . $unecategorie->LIBELLE . "</td>";
+            /*echo "<td>" . $untype->LETTRECATEGORIE . $untype->NOTYPE . "<br>" . $untype->LIBELLE . "</td>" ;*/
+
+            /*if ($unecategorie->LETTRECATEGORIE == $untype->LETTRECATEGORIE);
+            {
+                echo "<td>". $unecategorie->LETTRECATEGORIE . "<br>" . $unecategorie->LIBELLE . "</td>";
+                echo "<td>" . $untype->LETTRECATEGORIE . $untype->NOTYPE . "<br>" . $untype->LIBELLE . "</td>" ;
+            }*/
+            
+            /*foreach($lesperiodes as $uneperiode){
+                foreach ($lestarifs as $untarif)
+                {
+                    if ($untarif->NOTYPE === $untype->NOTYPE && $untarif->NOPERIODE === $uneperiode->NOPERIODE) 
+                    {  
+                            if($uneperiode->NOPERIODE == $untarif->NOPERIODE){
+                                echo "<td>" . $untarif->TARIF . "</td>";
+                            }
+                    }  
+                }
+           
+            
+        echo "</tr>";       
+    }*/
 ?>
