@@ -10,7 +10,7 @@
     echo "<tr>";
     foreach($lessecteurs as $unsecteur)
     {
-        echo "<TD>" . anchor('', $unsecteur->NOM) . "</TD>" . "<br>";
+        echo "<TD>" . anchor('AfficheHTNumSect/' . $unsecteur->NOSECTEUR, $unsecteur->NOM) . "</TD>" . "<br>";
     }
     echo "</tr>";
     ?>

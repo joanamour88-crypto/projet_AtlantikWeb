@@ -17,6 +17,4 @@ class ModeleHoraires extends Model{
         ->get()
         ->getResult();
     }
-
-
 }
