@@ -17,4 +17,23 @@ class ModeleHoraires extends Model{
         ->get()
         ->getResult();
     }
+
+    public function getLiaison($nosecteur)
+    {
+        return $this->select('l.NOLIAISON, l.NOSECTEUR, p.NOM as NOM_DEPART, po.NOM as NOM_ARRIVEE')
+        ->from('liaison l')
+        ->join('port p', 'l.NOPORT_DEPART = p.NOPORT', 'inner')
+        ->join('port po', 'l.NOPORT_ARRIVEE = po.NOPORT', 'inner')
+        ->where('l.NOSECTEUR', $nosecteur)
+        ->groupby('l.NOLIAISON, l.NOSECTEUR, p.NOM, po.NOM')
+        ->get()
+        ->getResult();
+    }
+
+    public function getDate()
+    {
+        return $this->select('NOLIAISON, DATEHEUREDEPART')
+        ->get()
+        ->getResult();
+    }
 }

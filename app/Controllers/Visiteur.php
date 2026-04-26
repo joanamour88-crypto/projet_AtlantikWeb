@@ -145,10 +145,12 @@ class Visiteur extends BaseController
         . view('Templates/Footer');
     }
 
-    public function voirHorairesNumSect()
+    public function voirHorairesNumSect($nosecteur)
     {
         $modeleHoraires = new modeleHoraires();
+        $donnee['lesliaisons'] = $modeleHoraires->getLiaison($nosecteur);
         $donnee['lessecteurs'] = $modeleHoraires->getSecteur();
+        $donnee['lesdates'] = $modeleHoraires->getDate();
         $donnee['TitreDeLaPage'] = "Liste des Horaires";
 
         return view('Templates/Header')

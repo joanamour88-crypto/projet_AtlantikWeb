@@ -6,13 +6,17 @@
     <h2><?php echo $TitreDeLaPage ?><h2>
 </head>
 <body>
-    <?php
-    echo "<tr>";
-    foreach($lessecteurs as $unsecteur)
-    {
-        echo "<TD>" . anchor('AfficheHTNumSect/' . $unsecteur->NOSECTEUR, $unsecteur->NOM) . "</TD>" . "<br>";
-    }
-    echo "</tr>";
-    ?>
+    <div class="card p-3 mb-5">
+        <div class="card-body shadow" style="width: 300px">
+            <?php
+            echo "<tr>";
+            foreach($lessecteurs as $unsecteur)
+            {
+                echo "<TD>" . anchor('AfficheHTNumSect/' . $unsecteur->NOSECTEUR, $unsecteur->NOM) . "</TD>" . "<br>";
+            }
+            echo "</tr>";
+            ?>
+        </div>
+    </div>
 </body>
 </html>

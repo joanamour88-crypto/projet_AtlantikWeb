@@ -7,7 +7,6 @@ class ModeleLiaison extends Model{
     protected $primaryKey = 'NOLIAISON';
     protected $useAutoIncrement = true;
     protected $returnType = 'object';
-
     protected $allowFields = ['NOPORT_DEPART', 'NOSECTEUR', 'NOPORT_ARRIVEE', 'DISTANCE'];
 
     public function getAllLiaison()
@@ -17,6 +16,7 @@ class ModeleLiaison extends Model{
         ->join('port p', 'l.NOPORT_DEPART = p.NOPORT', 'inner')
         ->join('port po', 'l.NOPORT_ARRIVEE = po.NOPORT', 'inner')
         ->select('NOLIAISON, p.NOM AS PORTDEPART, s.NOM AS NOMSECTEUR, po.NOM AS PORTARRIVEE, DISTANCE')
-        ->get()->getResult();
+        ->get()
+        ->getResult();
     }
 }
