@@ -9,9 +9,17 @@ class ModeleHoraires extends Model{
     protected $returnType = 'object';
     protected $allowFields = ['NOTRAVERSEE', 'NOLIAISON', 'NOBATEAU', 'DATEHEUREDEPART', 'DATEHEUREARRIVEE', 'CLOTUREEMBARQUEMENT'];
 
+    public function getAllTraversees()
+    {
+        return $this->select('NOTRAVERSEE, NOLIAISON, b.NOM as nombateau, TIME(DATEHEUREDEPART) as heure')
+        ->join('bateau b', 'b.NOBATEAU = t.NOBATEAU', 'inner')
+        ->get()
+        ->getResult();
+    }
+
     public function getSecteur()
     {
-        return  $this->select('s.NOSECTEUR, s.NOM')
+        return $this->select('s.NOSECTEUR, s.NOM')
         ->from('secteur s')
         ->groupby('s.NOSECTEUR')
         ->get()
@@ -32,7 +40,8 @@ class ModeleHoraires extends Model{
 
     public function getDate()
     {
-        return $this->select('NOLIAISON, DATEHEUREDEPART')
+        return $this->select('NOLIAISON, date(DATEHEUREDEPART) AS dates')
+        ->groupby('date(DATEHEUREDEPART)')
         ->get()
         ->getResult();
     }

@@ -151,6 +151,7 @@ class Visiteur extends BaseController
         $donnee['lesliaisons'] = $modeleHoraires->getLiaison($nosecteur);
         $donnee['lessecteurs'] = $modeleHoraires->getSecteur();
         $donnee['lesdates'] = $modeleHoraires->getDate();
+        $donnee['lestraversees'] = $modeleHoraires->getAllTraversees();
         $donnee['TitreDeLaPage'] = "Liste des Horaires";
 
         return view('Templates/Header')

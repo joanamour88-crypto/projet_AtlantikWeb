@@ -13,4 +13,4 @@ $routes->match(['get','post'],'creeuncompte', 'Visiteur::CréationCompte');
 $routes->get('voirliaison', 'Visiteur::voirLiaison');
 $routes->get('voirtarif/(:num)', 'Visiteur::voirTarif/$1');
 $routes->get('voirhorairestraversees', 'Visiteur::voirHoraires');
-$routes->get('AfficheHTNumSect/(:num)', 'Visiteur::voirHorairesNumSect/$1');
+$routes->match(['get','post'], 'AfficheHTNumSect/(:num)', 'Visiteur::voirHorairesNumSect/$1');

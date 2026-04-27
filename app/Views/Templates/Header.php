@@ -34,7 +34,7 @@
         <a class="nav-link" href="voirliaison">Afficher liaison</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="Accueil">Accueil</a>
+        <a class="nav-link" href="/Accueil">Accueil</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="voirhorairestraversees">Horaires de Traversées</a>
