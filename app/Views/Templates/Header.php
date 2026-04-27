@@ -23,7 +23,6 @@
       </li>
       <li>
       <?php
-
         if(!is_null($session->get('MEL'))):?>
           <a Class="nav-link" href="<?php echo site_url('sedeconnecter') ?>">Se déconnecter</a>&nbsp;&nbsp;
         <?php else : ?>
