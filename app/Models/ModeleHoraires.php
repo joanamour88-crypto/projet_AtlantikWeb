@@ -13,8 +13,26 @@ class ModeleHoraires extends Model{
     {
         return $this->select('NOTRAVERSEE, NOLIAISON, b.NOM as nombateau, TIME(DATEHEUREDEPART) as heure')
         ->join('bateau b', 'b.NOBATEAU = t.NOBATEAU', 'inner')
+        ->groupby('NOTRAVERSEE')
         ->get()
         ->getResult();
+    }
+
+    public function getCategorie()
+    {
+        return $this->select('LETTRECATEGORIE, LIBELLE')
+        ->from('categorie')
+        ->groupby('LETTRECATEGORIE')
+        ->get()
+        ->getresult();
+    }
+
+    public function getCapaMax()
+    {
+        return $this->select('c.CAPACITEMAX')
+        ->join('contenir c', 'c.NOBATEAU = t.NOBATEAU')
+        ->get()
+        ->getresult();
     }
 
     public function getSecteur()

@@ -36,49 +36,34 @@
                             }
                         ?>
                     </select>
-                    <select name = "date">
-                        <?php
-                            if (isset($lesliaisons))
-                            {
-                                foreach($lesliaisons as $uneliaison)
-                                {
-                                    foreach($lesdates as $unedate)
-                                    {
-                                        if($uneliaison->NOLIAISON == $unedate->NOLIAISON)
-                                        {
-                                            echo "<option>" . $unedate->dates . "</option>";
-                                        }
-                                    }
-                                }
-                            }
-                        ?>      
-                    </select>
+                    <input type="date" name="datededepart">
                     <input type="submit" name="affichertraversees" value="Afficher les traversées">
                 </form>
             </div>
             <div class="card-body shadow col-md-10">
                 <table class='table table-striped'>
                     <?php 
-                    echo "
-                    <tr>
-                    <th>N°</th>
-                    <th>Heure</th>
-                    <th>Bateau</th>
-                    </tr>";
                     if(isset($_POST['affichertraversees']))
                     {
+                        echo "
+                        <tr>
+                        <th>N°</th>
+                        <th>Heure</th>
+                        <th>Bateau</th>";
+                        foreach($lescategories as $unecategorie)
+                        {
+                            echo "<th>" . $unecategorie->LETTRECATEGORIE . " " . $unecategorie->LIBELLE . "</th>";
+                        }
+                        echo "</tr>";
                         foreach($lestraversees as $unetraversee)
                         {
-                            foreach($lesliaisons as $uneliaison)
+                            if($_POST['liaison'] == $unetraversee->NOLIAISON and $_POST['datededepart'])
                             {
-                                if($unetraversee->NOLIAISON == $uneliaison->NOLIAISON)
-                                {
-                                    echo "<tr>";
-                                    echo "<td>" . $unetraversee->NOTRAVERSEE . "</td>";
-                                    echo "<td>" . $unetraversee->heure . "</td>";
-                                    echo "<td>" . $unetraversee->nombateau . "</td>";
-                                    echo "</tr>";
-                                }
+                                echo "<tr>";
+                                echo "<td>" . $unetraversee->NOTRAVERSEE . "</td>";
+                                echo "<td>" . $unetraversee->heure . "</td>";
+                                echo "<td>" . $unetraversee->nombateau . "</td>";
+                                echo "</tr>";
                             }
                         }
                     }else
