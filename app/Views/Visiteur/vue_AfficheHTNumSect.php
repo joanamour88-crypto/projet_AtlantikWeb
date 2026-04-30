@@ -41,12 +41,11 @@
                 </form>
             </div>
             <div class="card-body shadow col-md-10">
-                <table class='table table-striped'>
+                <table name="lemich" class='table table-striped'>
                     <?php 
                     if(isset($_POST['affichertraversees']))
                     {
-                        echo "
-                        <tr>
+                        echo "<tr>
                         <th>N°</th>
                         <th>Heure</th>
                         <th>Bateau</th>";
@@ -57,12 +56,22 @@
                         echo "</tr>";
                         foreach($lestraversees as $unetraversee)
                         {
-                            if($_POST['liaison'] == $unetraversee->NOLIAISON and $_POST['datededepart'])
+                            if($_POST['liaison'] == $unetraversee->NOLIAISON and $_POST['datededepart'] == $unetraversee->date)
                             {
                                 echo "<tr>";
                                 echo "<td>" . $unetraversee->NOTRAVERSEE . "</td>";
                                 echo "<td>" . $unetraversee->heure . "</td>";
                                 echo "<td>" . $unetraversee->nombateau . "</td>";
+                                foreach($lescapasmax as $unecapamax) //erreur a corriger/trouver la solution pour afficher les places disponibles
+                                {
+                                    foreach($lesresultats as $unresultat)
+                                    {
+                                        if ($unecategorie->LETTRECATEGORIE == $unecapamax->LETTRECATEGORIE and $unetraversee->NOBATEAU == $unecapamax->NOBATEAU)
+                                        {
+                                            echo "<td>" . $unresultat . "</td>";
+                                        }   
+                                    }
+                                }
                                 echo "</tr>";
                             }
                         }

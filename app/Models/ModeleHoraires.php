@@ -11,7 +11,7 @@ class ModeleHoraires extends Model{
 
     public function getAllTraversees()
     {
-        return $this->select('NOTRAVERSEE, NOLIAISON, b.NOM as nombateau, TIME(DATEHEUREDEPART) as heure')
+        return $this->select('NOTRAVERSEE, NOLIAISON, t.NOBATEAU, b.NOM as nombateau, TIME(DATEHEUREDEPART) as heure, DATE(DATEHEUREDEPART) as date')
         ->join('bateau b', 'b.NOBATEAU = t.NOBATEAU', 'inner')
         ->groupby('NOTRAVERSEE')
         ->get()
@@ -29,8 +29,18 @@ class ModeleHoraires extends Model{
 
     public function getCapaMax()
     {
-        return $this->select('c.CAPACITEMAX')
-        ->join('contenir c', 'c.NOBATEAU = t.NOBATEAU')
+        return $this->select('c.LETTRECATEGORIE, c.NOBATEAU, c.CAPACITEMAX')
+        ->join('contenir c', 'c.NOBATEAU = t.NOBATEAU', 'inner')
+        ->groupby('c.LETTRECATEGORIE, c.NOBATEAU')
+        ->get()
+        ->getresult();
+    }
+
+    public function getEnregistrer()
+    {
+        return $this->select('r.NOTRAVERSEE, e.LETTRECATEGORIE, e.QUANTITERESERVEE')
+        ->join('reservation r', 'r.NOTRAVERSEE = t.NOTRAVERSEE')
+        ->join('enregistrer e', 'e.NORESERVATION = r.NORESERVATION', 'inner')
         ->get()
         ->getresult();
     }
