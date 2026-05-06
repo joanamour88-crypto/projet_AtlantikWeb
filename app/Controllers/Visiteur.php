@@ -156,7 +156,7 @@ class Visiteur extends BaseController
         $donnee['lescapasmax'] = $modeleHoraires->getCapaMax();
         $donnee['lesenregistrer'] = $modeleHoraires->getEnregistrer();
         $donnee['TitreDeLaPage'] = "Liste des Horaires";
-
+         /*
         $donnee['lesresultats'] = [];
 
         foreach($donnee['lestraversees'] as $unetraversee)
@@ -165,9 +165,9 @@ class Visiteur extends BaseController
             {
                 foreach($donnee['lesenregistrer'] as $unenregistrer)
                 {
-                    if($unetraversee->NOTRAVERSEE == $unenregistrer->NOTRAVERSEE and $unecapa->LETTRECATEGORIE and $unenregistrer->LETTRECATEGORIE)
+                    if($unetraversee->NOTRAVERSEE == $unenregistrer->NOTRAVERSEE and $unecapa->LETTRECATEGORIE == $unenregistrer->LETTRECATEGORIE)
                     {
-                        $donnee['lesresultats'] = $unecapa->CAPACITEMAX - $unenregistrer->QUANTITERESERVEE;
+                        $donnee['lesresultats'] = (int)($unecapa->CAPACITEMAX) - (int)($unenregistrer->QUANTITERESERVEE);
                     }
                     else
                     {
@@ -176,7 +176,7 @@ class Visiteur extends BaseController
                 }
             }
         }
-
+        */
 
         return view('Templates/Header')
         . view('Visiteur/vue_AfficheHTNumSect', $donnee)

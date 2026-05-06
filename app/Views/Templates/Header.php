@@ -10,8 +10,8 @@
     
 </head>
 <body>
-<div class="p-2 bg-primary text-white text-center">
-  <h1>Atlantik</h1>
+<div class="p-2 bg-primary text-white justify-content-center align-items-center"  style="height: 150px; text-align: center;">
+  <img src="/assets/images/Imagesansfondblanc.png" alt="Logo Atlantik" style="width: 150px;">
 </div>
 <nav class="navbar navbar-expand-sm bg-info">
   <div class="container-fluid">

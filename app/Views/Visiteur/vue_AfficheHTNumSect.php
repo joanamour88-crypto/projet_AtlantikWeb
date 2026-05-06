@@ -64,13 +64,19 @@
                                 echo "<td>" . $unetraversee->nombateau . "</td>";
                                 foreach($lescapasmax as $unecapamax) //erreur a corriger/trouver la solution pour afficher les places disponibles
                                 {
+                                    if ($unecategorie->LETTRECATEGORIE == $unecapamax->LETTRECATEGORIE and $unetraversee->NOBATEAU == $unecapamax->NOBATEAU)
+                                    {
+                                        echo "<td>" . $unecapamax->CAPACITEMAX . "</td>";
+                                    }
+                                    /*
                                     foreach($lesresultats as $unresultat)
                                     {
                                         if ($unecategorie->LETTRECATEGORIE == $unecapamax->LETTRECATEGORIE and $unetraversee->NOBATEAU == $unecapamax->NOBATEAU)
                                         {
-                                            echo "<td>" . $unresultat . "</td>";
+                                            echo "<td>" . $unecapamax->CAPACITEMAX . "</td>";
                                         }   
                                     }
+                                        */
                                 }
                                 echo "</tr>";
                             }
