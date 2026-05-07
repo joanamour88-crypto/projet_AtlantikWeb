@@ -59,7 +59,7 @@
                             if($_POST['liaison'] == $unetraversee->NOLIAISON and $_POST['datededepart'] == $unetraversee->date)
                             {
                                 echo "<tr>";
-                                echo "<td>" . $unetraversee->NOTRAVERSEE . "</td>";
+                                echo "<TD>" . anchor('Reservetraversee/' . $unetraversee->NOTRAVERSEE, $unetraversee->NOTRAVERSEE) . "</TD>";
                                 echo "<td>" . $unetraversee->heure . "</td>";
                                 echo "<td>" . $unetraversee->nombateau . "</td>";
                                 foreach($lescapasmax as $unecapamax) //erreur a corriger/trouver la solution pour afficher les places disponibles
@@ -74,9 +74,10 @@
                                         if ($unecategorie->LETTRECATEGORIE == $unecapamax->LETTRECATEGORIE and $unetraversee->NOBATEAU == $unecapamax->NOBATEAU)
                                         {
                                             echo "<td>" . $unecapamax->CAPACITEMAX . "</td>";
+                                            echo $lesresultats[1][A]
                                         }   
                                     }
-                                        */
+                                    */
                                 }
                                 echo "</tr>";
                             }

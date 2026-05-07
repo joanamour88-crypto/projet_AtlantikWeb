@@ -6,6 +6,9 @@ use App\Models\ModeleTarif;
 use App\Models\ModeleHoraires;
 
 helper(['url','assets','form']);
+$session = session();
+
+
 class Visiteur extends BaseController
 {
     public function Accueil()
@@ -145,6 +148,13 @@ class Visiteur extends BaseController
         . view('Templates/Footer');
     }
 
+    public function voirReservetrav()
+    {
+        return view('Templates/Header')
+        . view('Visiteur/vue_Reservetraversee')
+        . view('Templates/Footer');
+    }
+
     public function voirHorairesNumSect($nosecteur)
     {
         $modeleHoraires = new modeleHoraires();
@@ -167,7 +177,7 @@ class Visiteur extends BaseController
                 {
                     if($unetraversee->NOTRAVERSEE == $unenregistrer->NOTRAVERSEE and $unecapa->LETTRECATEGORIE == $unenregistrer->LETTRECATEGORIE)
                     {
-                        $donnee['lesresultats'] = (int)($unecapa->CAPACITEMAX) - (int)($unenregistrer->QUANTITERESERVEE);
+                        $donnee['lesresultats'][1][A] = (int)($unecapa->CAPACITEMAX) - (int)($unenregistrer->QUANTITERESERVEE);
                     }
                     else
                     {
@@ -183,3 +193,5 @@ class Visiteur extends BaseController
         . view('Templates/Footer');
     }
 }
+
+// $Tableau[1][A] = 
