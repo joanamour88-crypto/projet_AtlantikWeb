@@ -148,10 +148,14 @@ class Visiteur extends BaseController
         . view('Templates/Footer');
     }
 
-    public function voirReservetrav()
+    public function voirReservetrav($notraversee)
     {
+        $modeleHoraires = new modeleHoraires();
+        $donnee['lestrajets'] = $modeleHoraires->getAllTraversees2($notraversee);
+        $donnee['TitreDeLaPage'] = "Reservation";
+
         return view('Templates/Header')
-        . view('Visiteur/vue_Reservetraversee')
+        . view('Visiteur/vue_Reservetraversee', $donnee)
         . view('Templates/Footer');
     }
 

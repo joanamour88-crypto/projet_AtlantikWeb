@@ -18,6 +18,17 @@ class ModeleHoraires extends Model{
         ->getResult();
     }
 
+    public function getAllTraversees2($notraversee)
+    {
+        return $this->select('t.NOTRAVERSEE, t.NOLIAISON, po.NOM as nomportarr, p.NOM as nomportdep, TIME(DATEHEUREDEPART) as heure, DATE(DATEHEUREDEPART) as datdep')
+        ->join('liaison l', 'l.NOLIAISON = t.NOLIAISON', 'inner')
+        ->join('port p', 'l.NOPORT_DEPART = p.NOPORT', 'inner')
+        ->join('port po', 'l.NOPORT_ARRIVEE = p.NOPORT', 'inner')
+        ->where('NOTRAVERSEE', $notraversee)
+        ->get()
+        ->getRow();
+    }
+
     public function getCategorie()
     {
         return $this->select('LETTRECATEGORIE, LIBELLE')
