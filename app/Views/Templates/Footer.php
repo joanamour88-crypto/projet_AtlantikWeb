@@ -1,3 +1,3 @@
-<p><em>Atlantik.fr; BTS SIO; by jojo</em></p>
+<p><em>Atlantik.fr; BTS SIO; by AMOUR Joan</em></p>
 </body>
 </html>

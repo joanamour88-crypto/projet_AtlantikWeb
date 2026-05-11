@@ -21,6 +21,9 @@
         $session = session();
         echo 'Utilisateur connecté : ' . $session->get('PRENOM').'&nbsp;&nbsp;';?>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Accueil">Accueil</a>
+      </li>
       <li>
       <?php
         if(!is_null($session->get('MEL'))):?>
@@ -31,9 +34,6 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/voirliaison">Afficher liaison</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Accueil">Accueil</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/voirhorairestraversees">Horaires de Traversées</a>

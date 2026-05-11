@@ -153,6 +153,12 @@ class Visiteur extends BaseController
         $modeleHoraires = new modeleHoraires();
         $donnee['lestrajets'] = $modeleHoraires->getAllTraversees2($notraversee);
         $donnee['TitreDeLaPage'] = "Reservation";
+        if(isset($_SESSION['MEL']))
+        {
+            $modeleClient = new modeleClient();
+            $donnee['infosclient'] = $modeleClient->where(['MEL' => $_SESSION['MEL']])->first();
+        }
+        $donnee["lestypes"] = $modeleHoraires->getType();
 
         return view('Templates/Header')
         . view('Visiteur/vue_Reservetraversee', $donnee)

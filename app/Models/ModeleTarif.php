@@ -7,7 +7,7 @@ class ModeleTarif extends Model{
     protected $primaryKey = 'NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON';
     protected $useAutoIncrement = true;
     protected $returnType = 'object';
-    protected $allowFields = ['NOPERIODE', 'LETTRECATEGORIE', 'NOTYPE', 'NOLIAISON', 'TARIF'];
+    protected $allowedFields = ['NOPERIODE', 'LETTRECATEGORIE', 'NOTYPE', 'NOLIAISON', 'TARIF'];
 
     public function getAllTarif($noliaison)
     {

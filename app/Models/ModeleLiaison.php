@@ -7,7 +7,7 @@ class ModeleLiaison extends Model{
     protected $primaryKey = 'NOLIAISON';
     protected $useAutoIncrement = true;
     protected $returnType = 'object';
-    protected $allowFields = ['NOPORT_DEPART', 'NOSECTEUR', 'NOPORT_ARRIVEE', 'DISTANCE'];
+    protected $allowedFields = ['NOPORT_DEPART', 'NOSECTEUR', 'NOPORT_ARRIVEE', 'DISTANCE'];
 
     public function getAllLiaison()
     {

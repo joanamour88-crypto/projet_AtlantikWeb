@@ -79,6 +79,7 @@
                                     }
                                     */
                                 }
+                                //$_SESSION->set('noliaison', $unetraversee->NOLIAISON);
                                 echo "</tr>";
                             }
                         }

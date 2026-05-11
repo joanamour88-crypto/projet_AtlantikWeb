@@ -7,7 +7,7 @@ class ModeleHoraires extends Model{
     protected $primaryKey = 'NOTRAVERSEE';
     protected $useAutoIncrement = true;
     protected $returnType = 'object';
-    protected $allowFields = ['NOTRAVERSEE', 'NOLIAISON', 'NOBATEAU', 'DATEHEUREDEPART', 'DATEHEUREARRIVEE', 'CLOTUREEMBARQUEMENT'];
+    protected $allowedFields = ['NOTRAVERSEE', 'NOLIAISON', 'NOBATEAU', 'DATEHEUREDEPART', 'DATEHEUREARRIVEE', 'CLOTUREEMBARQUEMENT'];
 
     public function getAllTraversees()
     {
@@ -23,10 +23,19 @@ class ModeleHoraires extends Model{
         return $this->select('t.NOTRAVERSEE, t.NOLIAISON, po.NOM as nomportarr, p.NOM as nomportdep, TIME(DATEHEUREDEPART) as heure, DATE(DATEHEUREDEPART) as datdep')
         ->join('liaison l', 'l.NOLIAISON = t.NOLIAISON', 'inner')
         ->join('port p', 'l.NOPORT_DEPART = p.NOPORT', 'inner')
-        ->join('port po', 'l.NOPORT_ARRIVEE = p.NOPORT', 'inner')
+        ->join('port po', 'l.NOPORT_ARRIVEE = po.NOPORT', 'inner')
         ->where('NOTRAVERSEE', $notraversee)
         ->get()
         ->getRow();
+    }
+
+    public function getType()
+    {
+        return $this->select('ty.LETTRECATEGORIE, ty.NOTYPE, ty.LIBELLE')
+        ->from('type ty')
+        ->groupby('LIBELLE')
+        ->get()
+        ->getResult();
     }
 
     public function getCategorie()
