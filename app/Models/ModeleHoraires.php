@@ -29,6 +29,37 @@ class ModeleHoraires extends Model{
         ->getRow();
     }
 
+    public function getPeriode()
+    {
+        return $this->select('NOPERIODE, DATEDEBUT, DATEFIN')
+        ->from('periode')
+        ->get()
+        ->getResult();
+    }
+
+    public function getTarif()
+    {
+        return $this->select('NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF')
+        ->from('tarifer')
+        ->get()
+        ->getResult();
+    }
+    
+    public function getTarif2($noliaison, $date)
+    {
+        return $this->select('ty.LIBELLE as libelle, ta.NOPERIODE, ta.LETTRECATEGORIE, ta.NOTYPE, ta.NOLIAISON, ta.TARIF')
+        ->from('tarifer ta')
+        ->join('type ty', 'ty.NOTYPE = ta.NOTYPE and ty.LETTRECATEGORIE = ta.LETTRECATEGORIE', 'inner')
+        ->join('periode pe', 'pe.NOPERIODE = ta.NOPERIODE', 'inner')
+        ->where('ta.NOLIAISON', $noliaison)
+        ->where('pe.DATEDEBUT <=', $date)
+        ->where('pe.DATEFIN >=', $date)
+        ->groupby('ty.LETTRECATEGORIE, ty.LIBELLE')
+        ->orderBy('ty.LETTRECATEGORIE, ty.NOTYPE')
+        ->get()
+        ->getResult();
+    }
+
     public function getType()
     {
         return $this->select('ty.LETTRECATEGORIE, ty.NOTYPE, ty.LIBELLE')

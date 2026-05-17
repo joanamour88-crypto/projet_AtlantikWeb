@@ -23,7 +23,7 @@
                     <h3>Sélectionner la liaison et la date souhaitée</h3>
                     <select name = "liaison">
                         <?php
-                            if (isset($lesliaisons))
+                            if(isset($lesliaisons))
                             {
                                 foreach($lesliaisons as $uneliaison)
                                 {
@@ -60,6 +60,12 @@
                             {
                                 echo "<tr>";
                                 echo "<TD>" . anchor('Reservetraversee/' . $unetraversee->NOTRAVERSEE, $unetraversee->NOTRAVERSEE) . "</TD>";
+                                //var_dump($unetraversee->NOLIAISON);
+                                //var_dump($unetraversee->date);
+                                //die();
+                                $session = session();
+                                $session->set('noliaison', $unetraversee->NOLIAISON);
+                                $session->set('date', $unetraversee->date);
                                 echo "<td>" . $unetraversee->heure . "</td>";
                                 echo "<td>" . $unetraversee->nombateau . "</td>";
                                 foreach($lescapasmax as $unecapamax) //erreur a corriger/trouver la solution pour afficher les places disponibles
@@ -79,7 +85,6 @@
                                     }
                                     */
                                 }
-                                //$_SESSION->set('noliaison', $unetraversee->NOLIAISON);
                                 echo "</tr>";
                             }
                         }

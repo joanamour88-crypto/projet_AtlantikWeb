@@ -9,7 +9,14 @@ class ModeleTarif extends Model{
     protected $returnType = 'object';
     protected $allowedFields = ['NOPERIODE', 'LETTRECATEGORIE', 'NOTYPE', 'NOLIAISON', 'TARIF'];
 
-    public function getAllTarif($noliaison)
+    public function getTarif()
+    {
+        return $this->select('NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF')
+        ->get()
+        ->getResult();
+    }
+
+    public function getTarifLiaison($noliaison)
     {
         return  $this->select('t.TARIF, t.NOTYPE, t.NOPERIODE, t.LETTRECATEGORIE')
         ->where('t.NOLIAISON', $noliaison)
