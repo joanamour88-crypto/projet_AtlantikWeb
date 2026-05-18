@@ -1,7 +1,7 @@
 <?php
 if ($creationcompte)
 {
-    echo "  Compte crée, Bravo !";
+    echo "Compte crée, Bravo !";
 }
 else
 {

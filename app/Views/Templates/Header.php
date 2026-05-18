@@ -38,9 +38,6 @@
       <li class="nav-item">
         <a class="nav-link" href="/voirhorairestraversees">Horaires de Traversées</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/boucard">Boucard</a>
-      </li>
     </ul>
   </div>
 </nav>

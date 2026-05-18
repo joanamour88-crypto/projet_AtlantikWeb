@@ -29,3 +29,6 @@ $routes->match(['get','post'], 'sedeconnecter', 'Visiteur::seDeconnecter');
 
 ////////////////////// UC 7 ///////////////////////////
 $routes->match(['get','post'], '/Reservetraversee/(:num)', 'visiteur::voirReservetrav/$1');
+
+////////////////////// UC 8 ///////////////////////////
+$routes->match(['get','post'], 'compterendu', 'Visiteur::voirCompteRendu');

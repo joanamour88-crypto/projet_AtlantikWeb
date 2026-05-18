@@ -4,6 +4,8 @@ use App\Models\ModeleClient;
 use App\Models\ModeleLiaison;
 use App\Models\ModeleTarif;
 use App\Models\ModeleHoraires;
+use App\Models\ModeleReservation;
+use CodeIgniter\Database\Query;
 
 helper(['url','assets','form']);
 $session = session();
@@ -215,34 +217,47 @@ class Visiteur extends BaseController
         
         $noliaison = $_SESSION['noliaison'];
         $datedepart = $_SESSION['date'];
-
         $donnee['lestarifs'] = $modeleHoraires->getTarif2($noliaison, $datedepart);
 
-        /*
-        foreach($donnee['lestrajets'] as $untrajet)
+        if(isset($_POST['Valide']))
         {
-            foreach($donnee['lesperiodes'] as $uneperiode)
+            $total = 0;
+            foreach ($this->request->getPost('QuantitéTarif') as $lignes)
             {
-                foreach($donnee['lescategories'] as $unecategorie)
+                if($lignes['quantite'] != "" || $lignes['quantite'] != 0)
                 {
-                    foreach($donnee['lestypes'] as $unetype)
-                    {
-                        foreach($donnee['lestarifs'] as $untarif)
-                        {
-                            if($untrajet->NOLIAISON == $untarif->NOLIAISON and $uneperiode->NOPERIODE == $untarif->NOPERIODE and $unecategorie->LETTRECATEGORIE == $untarif->LETTRECATEGORIE and $unetype->NOTYPE == $untarif->NOTYPE)
-                            {
-                                $donnee['lesprix'][$untrajet->NOTRAVERSEE][$uneperiode->NOPERIODE][$unecategorie->LETTRECATEGORIE][$unetype->NOTYPE] = $untarif->TARIF;
-                            }
-                        }
-                    }
+                    $tarif = (float)$lignes['tarif'];
+                    $quantite = (int)$lignes['quantite'];
+                    $total += $tarif * $quantite;
                 }
             }
+            $donneesAInserer = array(
+                'NOTRAVERSEE' => (int) $notraversee,
+                'NOCLIENT' => (int) $session->get('NOCLIENT'),
+                'DATEHEURE' => date('Y-m-d H:i:s'),
+                'MONTANTTOTAL' => (float) $total,
+                'PAYE' => 1,
+                'MODEREGLEMENT' => null,
+            );
+
+            $modeleReservation = new ModeleReservation();
+            $modeleReservation->insert($donneesAInserer, false);
         }
-        */
+        
+
         return view('Templates/Header')
         . view('Visiteur/vue_Reservetraversee', $donnee)
         . view('Templates/Footer');
     }
-}
 
+    /////////////////////////// UC 8 ///////////////////////////
+    public function voirCompteRendu()
+    {
+        return view('Templates/Header')
+        . view('Client/vue_CompteRendu')
+        . view('Templates/Footer');
+    }
+}
+// Avoir la date d'aujourd'hui : date('Y-m-d H:i:s')
 // $Tableau[1][A] = 
+    
