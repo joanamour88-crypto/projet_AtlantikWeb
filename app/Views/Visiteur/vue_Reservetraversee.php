@@ -12,11 +12,13 @@
     </div>
     <div class="card p-2 mb-2 shadow" style="text-align: center; height: 200px; width: 900px;">
         <?php
+        $session = session();
         if (isset($_SESSION['MEL']))
         {
             echo "<h3>Nom: " . $infosclient->NOM . "</h3>";
             echo "<h3>Adresse: " . $infosclient->ADRESSE . "</h3>";
             echo "<h3>Code postal: " . $infosclient->CODEPOSTAL . " / Ville: " . $infosclient->VILLE . "</h3>";
+            $session->set('noclient', $infosclient->NOCLIENT);
         }
         else
         {
@@ -25,29 +27,40 @@
         ?>
     </div>
     <div class="card p-2 mb-2 shadow d-flex justify-content-center align-items-center" style="text-align: center; height: 900px; width: 900px; margin: auto;">
-        <table name="reservation" class='table table-striped'>
-            <?php
-            echo "<tr>
-            <th>Libellé</th>
-            <th>Tarif</th>
-            <th>Quantité</th>
-            </tr>";
-            $i = 0;
-                foreach($lestarifs as $untarif)
-                {
-                    echo "<tr>";
-                    echo "<th>" . $untarif->libelle . "</th>";
-                    echo "<th name='QuantitéTarif[$i][tarif]'>" . $untarif->TARIF . " €" . "</th>
-                    <th><input type='number' name='QuantitéTarif[$i][quantite]' size='3' pattern='[0-9]+' required /></th>";
-                    echo "</tr>";
-                    $i += 1;
-                }
-            ?>
-        </table>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-light text-primary" onclick="window.location.href='/compterendu'" name="Valide" value="1"> 
-        Validé 
-        </button>
+        <form id="reservationForm" method="post" action="/compterendu">
+            <table name="reservation" class='table table-striped'>
+                <?php
+                    echo "<tr>
+                    <th>Libellé</th>
+                    <th>Tarif</th>
+                    <th>Quantité</th>
+                    </tr>";
+                    $i = 0;
+                    foreach($lestarifs as $untarif)
+                    {
+                        echo "<tr>";
+                        echo "<th>" . $untarif->libelle . "</th>";
+                        echo "<th><input type='hidden' name='QuantitéTarif[$i][tarif]' value='" . $untarif->TARIF . "'/>" . $untarif->TARIF . " €" . "</th>
+                        <th><input type='number' name='QuantitéTarif[$i][quantite]' size='3' pattern='[0-9]+' /></th>";
+                        echo "</tr>";
+                        $i += 1;
+                    }
+                ?>
+                </table>
+                <input type="hidden" name="Valide" value="1" />
+                <input type="hidden" name="notraversee" value="<?= esc($lestrajets->NOTRAVERSEE) ?>" />
+                <?php
+                    if (isset($_SESSION['MEL']))        
+                    {
+                    echo "<button type='submit' class='btn btn-primary text-light'> 
+                        Valider 
+                        </button>";
+                    }
+                    else
+                    {
+                        echo "<H3>Veuillez vous connecter pour réserver !</H3>";
+                    }
+                ?>
+            </form>
     </div>
 </div>

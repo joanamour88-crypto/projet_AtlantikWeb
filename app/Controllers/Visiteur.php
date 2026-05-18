@@ -219,30 +219,7 @@ class Visiteur extends BaseController
         $datedepart = $_SESSION['date'];
         $donnee['lestarifs'] = $modeleHoraires->getTarif2($noliaison, $datedepart);
 
-        if(isset($_POST['Valide']))
-        {
-            $total = 0;
-            foreach ($this->request->getPost('QuantitéTarif') as $lignes)
-            {
-                if($lignes['quantite'] != "" || $lignes['quantite'] != 0)
-                {
-                    $tarif = (float)$lignes['tarif'];
-                    $quantite = (int)$lignes['quantite'];
-                    $total += $tarif * $quantite;
-                }
-            }
-            $donneesAInserer = array(
-                'NOTRAVERSEE' => (int) $notraversee,
-                'NOCLIENT' => (int) $session->get('NOCLIENT'),
-                'DATEHEURE' => date('Y-m-d H:i:s'),
-                'MONTANTTOTAL' => (float) $total,
-                'PAYE' => 1,
-                'MODEREGLEMENT' => null,
-            );
-
-            $modeleReservation = new ModeleReservation();
-            $modeleReservation->insert($donneesAInserer, false);
-        }
+        
         
 
         return view('Templates/Header')
@@ -253,9 +230,54 @@ class Visiteur extends BaseController
     /////////////////////////// UC 8 ///////////////////////////
     public function voirCompteRendu()
     {
+        $session = session();
+        
+        if ($this->request->getPost('Valide'))
+        {
+            $total = 0;
+            $quantites = $this->request->getPost('QuantitéTarif');
+            if (!empty($quantites)) {
+                foreach ($quantites as $lignes)
+                {
+                    if (!empty($lignes['quantite']) && $lignes['quantite'] != 0)
+                    {
+                        $tarif = (float)$lignes['tarif'];
+                        $quantite = (int)$lignes['quantite'];
+                        $total += $tarif * $quantite;
+                    }
+                }
+            }
+            
+            $notraversee = $this->request->getPost('notraversee') ?: $session->get('notraversee');
+            $noclient = $session->get('noclient');
+
+            //var_dump($noclient);
+            //die();
+
+            $donneesAInserer = array(
+                'NOTRAVERSEE' => (int) $notraversee,
+                'NOCLIENT' => (int) $noclient,
+                'DATEHEURE' => date('Y-m-d H:i:s'),
+                'MONTANTTOTAL' => (float) $total,
+                'PAYE' => 1,
+                'MODEREGLEMENT' => null,
+            );
+            
+            var_dump($donneesAInserer);
+            die();
+
+            $modeleReservation = new ModeleReservation();
+            $modeleReservation->insert($donneesAInserer, false);
+            
+            return view('Templates/Header')
+                . view('Client/vue_CompteRendu')
+                . view('Templates/Footer');
+            
+        }
+        
         return view('Templates/Header')
-        . view('Client/vue_CompteRendu')
-        . view('Templates/Footer');
+            . view('Client/vue_CompteRendu')
+            . view('Templates/Footer');
     }
 }
 // Avoir la date d'aujourd'hui : date('Y-m-d H:i:s')
