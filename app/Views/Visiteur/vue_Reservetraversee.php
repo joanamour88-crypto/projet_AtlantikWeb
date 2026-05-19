@@ -39,9 +39,9 @@
                     foreach($lestarifs as $untarif)
                     {
                         echo "<tr>";
-                        echo "<th>" . $untarif->libelle . "</th>";
+                        echo "<th><input type='hidden' name='QuantitéTarif[$i][letcat]' value='". $untarif->LETTRECATEGORIE ."'/><input type='hidden' name='QuantitéTarif[$i][notype]' value='". $untarif->NOTYPE ."'/> " . $untarif->libelle . "</th>";
                         echo "<th><input type='hidden' name='QuantitéTarif[$i][tarif]' value='" . $untarif->TARIF . "'/>" . $untarif->TARIF . " €" . "</th>
-                        <th><input type='number' name='QuantitéTarif[$i][quantite]' size='3' pattern='[0-9]+' /></th>";
+                        <th><input type='text' name='QuantitéTarif[$i][quantite]' size='3' pattern='[0-9]*' /></th>";
                         echo "</tr>";
                         $i += 1;
                     }

@@ -32,3 +32,6 @@ $routes->match(['get','post'], '/Reservetraversee/(:num)', 'Visiteur::voirReserv
 
 ////////////////////// UC 8 ///////////////////////////
 $routes->match(['get','post'], 'compterendu', 'Visiteur::voirCompteRendu');
+
+////////////////////// UC 9 ///////////////////////////
+$routes->match(['get','post'],'modifcompte', 'Client::ModifCompte');

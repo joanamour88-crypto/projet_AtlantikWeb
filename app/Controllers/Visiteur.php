@@ -5,7 +5,7 @@ use App\Models\ModeleLiaison;
 use App\Models\ModeleTarif;
 use App\Models\ModeleHoraires;
 use App\Models\ModeleReservation;
-use CodeIgniter\Database\Query;
+use App\Models\ModeleEnregistrer;
 
 helper(['url','assets','form']);
 $session = session();
@@ -88,6 +88,9 @@ class Visiteur extends BaseController
         $donnee['lescategories'] = $modeleTarif->getCategorie();
         $donnee['lestypes'] = $modeleTarif->getType();
         $donnee['TitreDeLaPage'] = "Liste des Tarifs";
+
+        //var_dump($noliaison);
+        //die();
 
         return view('Templates/Header')
         . view('Visiteur/vue_AfficheTarifLiaison', $donnee)
@@ -219,9 +222,6 @@ class Visiteur extends BaseController
         $datedepart = $_SESSION['date'];
         $donnee['lestarifs'] = $modeleHoraires->getTarif2($noliaison, $datedepart);
 
-        
-        
-
         return view('Templates/Header')
         . view('Visiteur/vue_Reservetraversee', $donnee)
         . view('Templates/Footer');
@@ -248,29 +248,65 @@ class Visiteur extends BaseController
                 }
             }
             
-            $notraversee = $this->request->getPost('notraversee') ?: $session->get('notraversee');
+            $notraversee = $this->request->getPost('notraversee');
             $noclient = $session->get('noclient');
 
             //var_dump($noclient);
             //die();
 
             $donneesAInserer = array(
-                'NOTRAVERSEE' => (int) $notraversee,
-                'NOCLIENT' => (int) $noclient,
+                'NOTRAVERSEE' => (int)$notraversee,
+                'NOCLIENT' => (int)$noclient,
                 'DATEHEURE' => date('Y-m-d H:i:s'),
-                'MONTANTTOTAL' => (float) $total,
+                'MONTANTTOTAL' => (double)$total,
                 'PAYE' => 1,
-                'MODEREGLEMENT' => null,
+                'MODEREGLEMENT' => 0,
             );
             
-            var_dump($donneesAInserer);
-            die();
-
             $modeleReservation = new ModeleReservation();
-            $modeleReservation->insert($donneesAInserer, false);
+            $donnees['noreservation'] = $modeleReservation->insert($donneesAInserer, true);
             
+            $quantembar = 0;
+            $noreservation = $modeleReservation->getInsertID();
+
+            foreach($quantites as $lignes)
+            {
+                if (!empty($lignes['quantite']) && $lignes['quantite'] != 0)
+                {
+                    $quantite = (int)$lignes['quantite'];
+                    $letcat = (string)$lignes['letcat'];
+                    $notype = (int)$lignes['notype'];
+                    
+                    $donneesAInserer2 = array(
+                        'NORESERVATION' => $noreservation,
+                        'LETTRECATEGORIE' => (string)$letcat,
+                        'NOTYPE' => (int)$notype,
+                        'QUANTITERESERVEE' => $quantite,
+                        'QUANTITEEMBARQUEE' => $quantembar,
+                    );
+
+                    $modeleEnregistrer = new ModeleEnregistrer();
+                    $donnees['enregistrer'] = $modeleEnregistrer->insert($donneesAInserer2, true);
+                }
+            }
+
+            $modeleHoraires = new modeleHoraires();
+            $donnees['lestrajets'] = $modeleHoraires->getAllTraversees2($notraversee);
+
+            //var_dump($donnee['lestrajets']);
+            //die();
+
+            if(isset($_SESSION['MEL']))
+            {
+                $modeleClient = new modeleClient();
+                $donnees['infosclient'] = $modeleClient->where(['MEL' => $_SESSION['MEL']])->first();
+            }
+
+            $modeleEnregistrer = new ModeleEnregistrer();
+            $donnees['lesreserves'] = $modeleEnregistrer->getReservation($noreservation);
+
             return view('Templates/Header')
-                . view('Client/vue_CompteRendu')
+                . view('Client/vue_CompteRendu', $donnees)
                 . view('Templates/Footer');
             
         }

@@ -24,6 +24,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/Accueil">Accueil</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/modifcompte">Modification du Compte</a>
+      </li>
       <li>
       <?php
         if(!is_null($session->get('MEL'))):?>
