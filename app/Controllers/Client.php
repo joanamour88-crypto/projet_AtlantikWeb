@@ -15,7 +15,13 @@ class Client extends BaseController
     /////////////////////////// UC 9 ///////////////////////////
     public function ModifCompte()
     {
+        $session = session();
+
         $data['TitreDeLaPage'] = 'ModificationCompte';
+
+        $modeleClient = new modeleClient();
+        $data['infosclient'] = $modeleClient->getinfosClient();
+
         if (!$this->request->is('post')) {
             return view('Templates/Header')
             . view('Client/vue_ModifierCompte', $data)
@@ -38,11 +44,11 @@ class Client extends BaseController
             . view('Client/vue_ModifierCompte', $data)
             . view('Templates/Footer');
         }
-        $donneesAInserer = array(
+        $donneesAModifier = array(
             'NOM' => $this->request->getPost('txtNom'),
             'PRENOM' => $this->request->getPost('txtPrenom'),
             'ADRESSE' => $this->request->getPost('txtAdresse'),
-            'CODEPOSTAL' => $this->request->getPost('txtCodePostale'),
+            'CODEPOSTAL' => (int)$this->request->getPost('txtCodePostale'),
             'VILLE' => $this->request->getPost('txtVille'),
             'TELEPHONEFIXE' => $this->request->getPost('txtTelFixe'),
             'TELEPHONEMOBILE' => $this->request->getPost('txtTelMobile'),
@@ -50,13 +56,32 @@ class Client extends BaseController
             'MOTDEPASSE' => $this->request->getPost('txtMdp'),
         );
 
-        //var_dump($donneesAInserer);
+        //var_dump($donneesAModifier);
         //die();
 
         $modelClient = new ModeleClient();
-        $donnees['modifcompte'] = $modelClient->update($donneesAInserer, true);
+        $data['modifcompte'] = $modelClient
+            ->where('MEL', $session->get('MEL'))
+            ->update($session->get('noclient'),$donneesAModifier);
         return view('Templates/Header')
-            .view('Client/vue_ModifierCompte', $donnees)
+            .view('Client/vue_ModifierCompte', $data)
             .view('Templates/Footer');
+    }
+
+    /////////////////////////// UC 10 ///////////////////////////
+    public function HistoriqueReservation()
+    {
+        $session = session();
+        $data['TitreDeLaPage'] = 'Historique de réservation';
+
+        $noclient = $session->get('noclient');
+
+        $modelReservation = new ModeleReservation();
+        $data['leshistoriques'] = $modelReservation->getAllReservation($noclient, 3);
+        $data['pager'] = $modelReservation->pager;
+
+        return view('Templates/Header')
+            . view('Client/vue_HistoriqueReservation', $data)
+            . view('Templates/Footer');
     }
 }

@@ -44,7 +44,7 @@ if ($TitreDeLaPage == 'Saisie incorrecte')
     echo '<br>';
     echo form_input('txtMdp', set_value('txtMdp'));
     echo '<br>';
-    echo form_submit('submit', 'Crée le compte');
+    echo form_submit('submit', 'Créer le compte');
     echo form_close();
   ?>
 </div>

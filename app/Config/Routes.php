@@ -35,3 +35,6 @@ $routes->match(['get','post'], 'compterendu', 'Visiteur::voirCompteRendu');
 
 ////////////////////// UC 9 ///////////////////////////
 $routes->match(['get','post'],'modifcompte', 'Client::ModifCompte');
+
+////////////////////// UC 10 ///////////////////////////
+$routes->match(['get','post'],'historiquereservation', 'Client::HistoriqueReservation');

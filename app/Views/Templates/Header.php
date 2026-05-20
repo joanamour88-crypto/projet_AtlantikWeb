@@ -25,7 +25,10 @@
         <a class="nav-link" href="/Accueil">Accueil</a>
       </li>
       <li class="nav-item">
+        <?php
+        if (!is_null($session->get('MEL'))):?>
         <a class="nav-link" href="/modifcompte">Modification du Compte</a>
+        <?php endif; ?>
       </li>
       <li>
       <?php
@@ -40,6 +43,12 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/voirhorairestraversees">Horaires de Traversées</a>
+      </li>
+      <li class="nav-item">
+        <?php
+        if (!is_null($session->get('MEL'))):?>
+        <a class="nav-link" href="/historiquereservation">Historique de Réservation</a>
+        <?php endif; ?>
       </li>
     </ul>
   </div>
